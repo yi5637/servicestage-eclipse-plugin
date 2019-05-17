@@ -39,7 +39,10 @@ public interface Resources {
 
     static final String PREFERENCES_HUAWEI_RESET_TOKEN = Activator
             .getResourceString("preferences.huawei.resetToken");
-
+    
+    static final String PREFERENCES_HUAWEI_TEST_TOKEN = Activator
+            .getResourceString("preferences.huawei.testConnection");
+    
     // App Wizard Page
     static final String WIZARD_APP_PAGE_PAGE_NAME = Activator
             .getResourceString("wizard.appPage.pageName");

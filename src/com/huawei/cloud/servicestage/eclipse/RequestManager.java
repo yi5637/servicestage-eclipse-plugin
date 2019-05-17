@@ -270,8 +270,13 @@ public class RequestManager {
         String username = store.getString(PreferenceConstants.USERNAME);
         String password = store.getString(PreferenceConstants.PASSWORD);
         String domain = store.getString(PreferenceConstants.DOMAIN);
-
-        // get existing token, if any
+        
+        return getAuthToken(forceNewToken, false, region, username, password, domain);
+    }
+        
+    public Token getAuthToken(boolean forceNewToken, boolean testConnection, String region, String username, String password, String domain) throws IOException {    
+    	IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+    	// get existing token, if any
         String tokenStr = store.getString(PreferenceConstants.TOKEN);
 
         Token token = null;
@@ -289,10 +294,12 @@ public class RequestManager {
 
         // no valid token found
         if (token == null) {
-            Logger.info("No valid token found, getting new token");
-
+            Logger.info("No valid token found, getting new token");           
             token = AuthClient.getAuthToken(region, username, password, domain);
-            store.putValue(PreferenceConstants.TOKEN, token.toString());
+            if (!testConnection) { // only save to preference when user apply changes in preference page
+            	Logger.info("Apply new token to preference store");
+            	store.putValue(PreferenceConstants.TOKEN, token.toString());
+            }
         }
 
         return token;
